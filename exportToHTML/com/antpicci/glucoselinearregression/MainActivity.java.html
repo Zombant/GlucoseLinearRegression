@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(128,128,128); }
+.s3 { color: rgb(106,135,89); }
+.s4 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.antpicci.glucoselinearregression</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.provider.Settings</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">org.apache.commons.math3.stat.regression.SimpleRegression</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+ 
+    TextView equationText</span><span class="s0">, </span><span class="s1">directionsText</span><span class="s0">;</span><span class="s1"> 
+    EditText editTextX</span><span class="s0">, </span><span class="s1">editTextY</span><span class="s0">, </span><span class="s1">findValueText</span><span class="s0">;</span><span class="s1"> 
+    Button calcButton</span><span class="s0">, </span><span class="s1">calcValButton</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">double</span><span class="s1">[] dataX</span><span class="s0">, </span><span class="s1">dataY</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">double</span><span class="s1">[][] data</span><span class="s0">;</span><span class="s1"> 
+ 
+    SimpleRegression simpleRegression</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s2">//Equation</span><span class="s1"> 
+    </span><span class="s0">double </span><span class="s1">slope</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">double </span><span class="s1">intercept</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_main)</span><span class="s0">;</span><span class="s1"> 
+ 
+        equationText = (TextView) findViewById(R.id.equationText)</span><span class="s0">;</span><span class="s1"> 
+        directionsText = (TextView) findViewById(R.id.directionsText)</span><span class="s0">;</span><span class="s1"> 
+ 
+        editTextX = (EditText) findViewById(R.id.enterX)</span><span class="s0">;</span><span class="s1"> 
+        editTextY = (EditText) findViewById(R.id.enterY)</span><span class="s0">;</span><span class="s1"> 
+        findValueText = (EditText) findViewById(R.id.findValueText)</span><span class="s0">;</span><span class="s1"> 
+ 
+        calcValButton = (Button) findViewById(R.id.findValButton)</span><span class="s0">;</span><span class="s1"> 
+ 
+        calcButton = (Button) findViewById(R.id.calculateButton)</span><span class="s0">;</span><span class="s1"> 
+        calcButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                readData(v)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">readData(View v){ 
+        String stringsX[] = editTextX.getText().toString().split(</span><span class="s3">&quot;,&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        String stringsY[] = editTextY.getText().toString().split(</span><span class="s3">&quot;,&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        dataX = </span><span class="s0">new double</span><span class="s1">[stringsX.length]</span><span class="s0">;</span><span class="s1"> 
+        dataY = </span><span class="s0">new double</span><span class="s1">[stringsY.length]</span><span class="s0">;</span><span class="s1"> 
+        data = </span><span class="s0">new double</span><span class="s1">[stringsX.length][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s0">; </span><span class="s1">i &lt; stringsX.length</span><span class="s0">; </span><span class="s1">i++){ 
+            dataX[i] = Double.parseDouble(stringsX[i])</span><span class="s0">;</span><span class="s1"> 
+            dataY[i] = Double.parseDouble(stringsY[i])</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s4">0</span><span class="s0">; </span><span class="s1">j &lt; stringsX.length</span><span class="s0">; </span><span class="s1">j++){ 
+            </span><span class="s0">double</span><span class="s1">[] tempData = {dataX[j]</span><span class="s0">, </span><span class="s1">dataY[j]}</span><span class="s0">;</span><span class="s1"> 
+            data[j] = tempData</span><span class="s0">;</span><span class="s1"> 
+        } 
+        getRegressionEquation()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">getRegressionEquation(){ 
+        simpleRegression = </span><span class="s0">new </span><span class="s1">SimpleRegression(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        simpleRegression.addData(data)</span><span class="s0">;</span><span class="s1"> 
+ 
+        slope = simpleRegression.getSlope()</span><span class="s0">;</span><span class="s1"> 
+        intercept = simpleRegression.getIntercept()</span><span class="s0">;</span><span class="s1"> 
+ 
+        equationText.setText(</span><span class="s3">&quot;Equation:</span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;y = &quot; </span><span class="s1">+ slope + </span><span class="s3">&quot;x + &quot; </span><span class="s1">+ intercept)</span><span class="s0">;</span><span class="s1"> 
+        findValueText.setVisibility(View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+        equationText.setVisibility(View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+        calcValButton.setVisibility(View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+        directionsText.setVisibility(View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+ 
+        calcValButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                </span><span class="s0">double </span><span class="s1">finalVal = simpleRegression.predict(Double.parseDouble(findValueText.getText().toString()))</span><span class="s0">;</span><span class="s1"> 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(getApplicationContext()</span><span class="s0">, </span><span class="s1">ResultsActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                intent.putExtra(</span><span class="s3">&quot;result&quot;</span><span class="s0">, </span><span class="s1">finalVal)</span><span class="s0">;</span><span class="s1"> 
+                startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+} 
+</span></pre>
+</body>
+</html>

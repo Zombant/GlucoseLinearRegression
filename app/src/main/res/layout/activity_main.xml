@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbarStyle="insideOverlay">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.antpicci.glucoselinearregression.MainActivity">
+
+        <TextView
+            android:id="@+id/textViewX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Enter all x values(distance in mm) separated by commas:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/enterX"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewX"
+            android:layout_marginTop="15dp"
+            android:hint="Example: 1,2,3,4,5,6"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="158dp"
+            tools:layout_editor_absoluteY="79dp" />
+
+        <TextView
+            android:id="@+id/textViewY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textViewX"
+            android:layout_alignStart="@+id/textViewX"
+            android:layout_below="@+id/enterX"
+            android:layout_marginTop="25dp"
+            android:text="Enter all y values(percentages) separated by commas:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/enterY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewY"
+            android:layout_marginTop="15dp"
+            android:hint="Example: 4,7.3,.24,7.6,9.5,2.6"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="158dp"
+            tools:layout_editor_absoluteY="79dp" />
+
+
+        <Button
+            android:id="@+id/calculateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/enterY"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="Calculate"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/equationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calculateButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="33dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/directionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/equationText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:text="Now enter a distance value to find the percentage based on the linear regression equation:"
+            android:visibility="visible" />
+
+
+        <EditText
+            android:id="@+id/findValueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/directionsText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/findValButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/findValueText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:text="Calculate"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+</ScrollView>
